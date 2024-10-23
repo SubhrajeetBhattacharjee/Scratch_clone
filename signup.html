@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Sign Up</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #ffebcd;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff8dc;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #ff6f61;
+        }
+        label {
+            font-size: 1.2em;
+            color: #333;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #ff6f61;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .giraffe-img {
+            max-width: 200px;
+            margin-top: 20px;
+        }
+        a {
+            color: #ff6f61;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Join Giraffe's Fun Learning World!</h2>
+        <img src="penguin_computer.png" alt="Cartoon Giraffe with Laptop" class="giraffe-img">
+        <p>Create your account and start learning with Giraffe!</p>
+
+        <form id="signupForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" required><br><br>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" required><br><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" required><br><br>
+
+            <input type="submit" value="Sign Up">
+        </form>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form from submitting
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Simple validation
+            if (username && email && password) {
+                // Save signup status and user details in local storage
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("username", username);
+                
+                // Redirect to the main dashboard (main.html)
+                window.location.href = "main.htm";
+            } else {
+                alert("Please fill in all fields.");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Creator Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    
+    <div id="dashboard">
+        <div class="dashboard-item" id="theory">
+            <a href="theory.html">Theory</a>
+        </div>
+        <div class="dashboard-item" id="manual">
+            <a href="manual.html">Manual</a>
+        </div>
+        <div class="dashboard-item" id="quiz">
+            <a href="quiz.html">Quiz</a>
+        </div>
+    
+        <!-- Check if the user is logged in -->
+        <div class="dashboard-item" id="user">
+            <!-- If user is logged in -->
+            <img src="shiba_pfp.png" alt="User Image" id="user-image" style="display: none; border-radius: 50%; width: 50px; height: 50px;">
+            <span id="username" style="display: none;"></span>
+            
+            <!-- If user is not logged in -->
+            <a href="login.html" id="login-link">Login</a>
+        </div>
+
+        <button id="logout-button" style="display: none;">Logout</button>
+        <script>
+            window.onload = function() {
+                const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                const username = localStorage.getItem("username");
+        
+                if (isLoggedIn && username) {
+                    document.getElementById('login-link').style.display = 'none';
+                    document.getElementById('profile-pic').style.display = 'inline-block';
+                    document.getElementById('username').style.display = 'inline-block';
+                    document.getElementById('username').textContent = username;
+                    document.getElementById('logout-button').style.display = 'inline-block';
+                }
+        
+                document.getElementById('logout-button').addEventListener('click', function() {
+                    // Clear local storage and log out
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('username');
+                    window.location.href = 'login.html'; // Redirect to login page
+                });
+            }
+        </script>
+    </div>
+    
+    <script>
+    // Mock login status
+    const isLoggedIn = false;  // Set to true if user is logged in
+    const userName = "John Doe";  // Replace with actual user name
+    
+    window.onload = function() {
+        if (isLoggedIn) {
+            document.getElementById("login-link").style.display = "none";
+            document.getElementById("user-image").style.display = "inline-block";
+            document.getElementById("username").style.display = "inline-block";
+            document.getElementById("username").textContent = userName;
+        } else {
+            document.getElementById("user-image").style.display = "none";
+            document.getElementById("username").style.display = "none";
+            document.getElementById("login-link").style.display = "inline-block";
+        }
+    }
+    </script>
+    
+    
+
+    <div id="editor">
+        <div id="controls">
+            <h2>Controls</h2>
+            
+            <div class="control-section">
+                <button id="move-left">Move Left</button>
+                <input type="number" id="move-left-distance" placeholder="10">
+            </div>
+            <div class="control-section">
+                <button id="move-right">Move Right</button>
+                <input type="number" id="move-right-distance" placeholder="10">
+            </div>
+            <div class="control-section">
+                <button id="move-up">Move Up</button>
+                <input type="number" id="move-up-distance" placeholder="10">
+            </div>
+            <div class="control-section">
+                <button id="move-down">Move Down</button>
+                <input type="number" id="move-down-distance" placeholder="10">
+            </div>
+            <div class="control-section">
+                <button id="turn-left">Turn Left</button>
+                <input type="number" id="turn-left-angle" placeholder="-15">
+            </div>
+            <div class="control-section">
+                <button id="turn-right">Turn Right</button>
+                <input type="number" id="turn-right-angle" placeholder="15">
+            </div>
+            <button id="run">Run</button>
+
+           
+            <h3>Loop</h3>
+            <div class="control-section">
+                <button id="start-loop">Start Loop</button>
+                <input type="number" id="loop-count" placeholder="Number of Iterations">
+            </div>
+
+            
+            <h3>Loop Operations</h3>
+            <div>
+                <select id="loop-operations" multiple>
+                    <option value="move left">Move Left</option>
+                    <option value="move right">Move Right</option>
+                    <option value="move up">Move Up</option>
+                    <option value="move down">Move Down</option>
+                    <option value="turn left">Turn Left</option>
+                    <option value="turn right">Turn Right</option>
+                </select>
+            </div>
+
+            
+            <h3>Looks</h3>
+            <div class="control-section">
+                <input type="text" id="say-message" placeholder="Enter message">
+                <input type="number" id="say-times" placeholder="Number of times" min="1">
+                <button id="say-button">Say</button>
+            </div>
+            <div class="control-section">
+                <label for="think-times">Think Times:</label>
+                <input type="number" id="think-times" placeholder="1">
+                <button id="think">Think</button>
+            </div>
+
+           
+        <h3>Sound</h3>
+        <div>
+        <select id="sound-select">
+            <option value="mixkit-cartoon-kitty-begging-meow-92.wav">Sound 1</option>
+           <option value="mixkit-cartoon-little-cat-meow-91.wav">Sound 2</option>
+        </select>
+        <button id="play-sound">Play Sound</button>
+        <button id="stop-sound">Stop All Sounds</button>
+        </div>
+
+        
+        
+        <div class="control-group">
+            <label for="size-input">Character Size:</label>
+            <input type="number" id="size-input" min="10" placeholder="Enter size (px)">
+            <button id="change-size-button">Change Size</button>
+        </div>        
+            
+            <div class="control-group">
+                <label for="wait-input">Wait Time (seconds):</label>
+                <input type="number" id="wait-input" min="0" placeholder="Enter wait time (seconds)">
+                <button id="wait-button">Wait</button>
+            </div>
+            
+            <div id="wait-timer" class="wait-timer" style="display: none;">
+                Waiting <span id="wait-time">0</span> seconds...
+            </div>            
+            
+                        
+            <h3>Conditions</h3>
+            <div id="condition-checker" class="control-section">
+                <input type="text" id="condition-input" placeholder="Enter condition">
+                <button id="check-condition">Check Condition</button>
+                <p id="condition-message"></p>
+            </div>          
+
+            <div id="strings-section">
+                <h3>String Operations</h3>
+                <div class="control-section">
+                    <input type="text" id="string-input" placeholder="Enter a string">
+                    <button id="check-length">Check Length</button>
+                    <p id="length-output"></p>
+                </div>
+                
+                <div class="control-section">
+                    <input type="text" id="string1" placeholder="Enter first string">
+                    <input type="text" id="string2" placeholder="Enter second string">
+                    <button id="join-strings">Join Strings</button>
+                    <p id="concatenation-output"></p>
+                </div>
+            </div>
+            
+            <div id="char-check-section">
+                <h3>Character Check</h3>
+                <div class="control-section">
+                    <input type="text" id="check-string" placeholder="Enter a string">
+                    <input type="text" id="check-char" placeholder="Enter a character">
+                    <button id="check-char-button">Check Character</button>
+                    <p id="char-output"></p>
+                </div>
+            </div>
+            
+
+                
+            <h3>Variables</h3>
+            <div class="control-section">
+                <button id="set-variable">Set Variable</button>
+            </div>
+            <div class="control-section">
+                <button id="change-variable">Change Variable</button>
+            </div>
+            <div class="control-section">
+                <button id="show-variable">Show Variable</button>
+            </div>
+            <!-- Save/Load/Undo/Redo -->
+            <h3>Additional Controls</h3>
+            <div class="control-section">
+                <button id="save-workspace">Save Workspace</button>
+                <button id="load-workspace">Load Workspace</button>
+            </div>
+    
+            <div class="control-section">
+                <button id="undo-button">Undo</button>
+                <button id="redo-button">Redo</button>
+            </div>
+         
+        </div>
+        <div id="workspace">
+            <h2>Workspace & Preview</h2>
+        </div>
+        <div id="asset-library">
+            <h2>Asset Library</h2>
+            <div class="asset" draggable="true" id="character1" data-image="character.png">
+                <img src="character.png" alt="Character 1">
+                <span>Cat</span>
+            </div>
+            <div class="asset" draggable="true" id="character2" data-image="Goborender.png">
+                <img src="Goborender.png" alt="Character 2">
+                <span>Goborender</span>
+            </div>
+            
+             <div class="asset" draggable="true" id="character3" data-image="Giga.png">
+                <img src="Giga.png" alt="Character 3">
+                <span>Giga</span>
+            </div>
+            
+            <div class="asset" draggable="true" id="character4" data-image="Nano.png">
+                <img src="Nano.png" alt="Character 4">
+                <span>Nano</span>
+            </div>
+
+            <div class="asset" draggable="true" id="character5" data-image="Blue.png">
+                <img src="Blue.png" alt="Character 5">
+                <span>Blue Cat</span>
+            </div>
+            
+            <div>
+                <h2>Workspace Backgrounds</h2>
+                <div class="backgrounds-container">
+                    <div class="asset" draggable="true" id="forest" data-image="forest.png">
+                        <img src="forest.png" alt="Forest">
+                        <span>Forest</span>
+                    </div>
+                    <div class="asset" draggable="true" id="ocean" data-image="ocean.png">
+                        <img src="ocean.png" alt="Ocean">
+                        <span>Ocean</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Logout Button -->
+
+
+
+
+
+<div id="saved-actions">
+    <h2>Saved Actions</h2>
+    <ul id="actions-list"></ul>
+</div>
+
+<ul id="actions-list"></ul> </div>
+       
+        <div id="scripts">
+            <h2>Scripts</h2>
+            <textarea id="script-input" placeholder="Type your script here..."></textarea>
+            <button id="run-script">Run Script</button>
+        </div>
+    </div>
+    <button id="play-button">Play</button>
+    <script src="script.js"></script>
+</body>
+</html>

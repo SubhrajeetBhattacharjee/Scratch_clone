@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff8dc;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #ff6f61;
+        }
+        label {
+            font-size: 1.2em;
+            color: #333;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #ff6f61;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .giraffe-img {
+            max-width: 200px;
+            margin-top: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            color: #ff6f61;
+        }
+        .error {
+            color: red;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to Giraffe's World!</h2>
+        <img src="lion with computer.png" alt="Cartoon Giraffe with Laptop" class="giraffe-img">
+        <p>Login to play and learn with Giraffe!</p>
+
+        <form id="loginForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <input type="submit" value="Login">
+        </form>
+        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+
+        <p class="error" id="error-message"></p>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent the form from submitting normally
+
+            // Mock correct credentials
+            const correctUsername = "subhrajeetbhattacharjee";
+            const correctPassword = "subhrajeetbhattacharjee";
+
+            // Get values from form fields
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Login validation
+            if (username === correctUsername && password === correctPassword) {
+                alert("Welcome, " + username + "! Redirecting you to the dashboard...");
+                // Simulate redirect (In a real app, you would redirect to a logged-in dashboard)
+                window.location.href = "main.htm";
+            } else {
+                // Show error message
+                document.getElementById("error-message").textContent = "Incorrect username or password. Please try again.";
+            }
+        });
+
+
+     
+        window.onload = function() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+            const username = localStorage.getItem("username");
+
+            if (isLoggedIn && username) {
+                // Hide login link and display username + profile picture
+                document.getElementById('login-link').style.display = 'none';
+                document.getElementById('profile-pic').style.display = 'inline-block';
+                document.getElementById('username').style.display = 'inline-block';
+                document.getElementById('username').textContent = username;
+            } else {
+                // Show login link if not logged in
+                document.getElementById('profile-pic').style.display = 'none';
+                document.getElementById('username').style.display = 'none';
+                document.getElementById('login-link').style.display = 'inline-block';
+            }
+        }
+   
+    </script>
+</body>
+</html>
